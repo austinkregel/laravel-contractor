@@ -1,6 +1,8 @@
 <?php namespace Kregel\Contractor;
 
 use Illuminate\Support\ServiceProvider;
+use Kregel\Contractor\Commands\CheckDeadlines;
+use Kregel\Contractor\Commands\SendEmails;
 
 class ContractorServiceProvider extends ServiceProvider {
 
@@ -18,7 +20,15 @@ class ContractorServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$this->app->singleton('command.contractor.send.emails', function ($app) {
+			return new SendEmails();
+		});
+		$this->commands('command.contractor.send.emails');
+
+		$this->app->singleton('command.contractor.check.emails', function ($app) {
+			return new CheckDeadlines();
+		});
+		$this->commands('command.contractor.check.emails');
 	}
 
 	/**

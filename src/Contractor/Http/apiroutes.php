@@ -1,13 +1,12 @@
 <?php
 
-Route::group(['prefix' => 'api/v1.0', 'as' => 'api.v1.'], function () {
-    Route::group(['as' => 'new.'],function(){
-        Route::get('documents', ['as' => 'document', 'uses' => 'TicketsController@postTicketCreate']);
-        /**
-         * Should return jpeg or pdf binary.
-         */
-        Route::get('document/{uuid}', ['as' => 'document', 'uses' => 'TicketsController@postTicketCreate']);
-
-        Route::post('document', ['as' => 'document', 'uses' => 'TicketsController@postTicketCreate']);
-    });
+Route::group(['prefix' => 'api/v1.0', 'as' => 'api.v1.', 'namespace' => 'Api', 'middleware' => 'auth'], function () {
+    /**
+     * Should return jpeg or pdf binary.
+     */
+    Route::post('document', ['as' => 'document', 'uses' => 'TicketsController@postTicketCreate']);
+    Route::get('document/{uuid}', ['as' => 'get-document', 'uses' => 'ApiController@displayContract']);
+    Route::post('pdf-path/{id}', ['as' => 'new-pdf', 'uses' => 'ApiController@postContractCreate']);
+    
+    Route::delete('document/{uuid}', ['as' => 'delete', 'uses' => 'ApiAController@delete']);
 });

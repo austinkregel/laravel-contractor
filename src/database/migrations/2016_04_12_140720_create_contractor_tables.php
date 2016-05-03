@@ -21,19 +21,18 @@ class CreateDispatchTables extends Migration
             $table->increments('id');
             $table->string ('name');
             $table->text('description'); // Describe the contracts
-            // Used to server the contract
-            $table->uuid('uuid');
-
             // In desired intervals this date shall be the one referenced when
             // Looking to push notifications. So the dates will be calculated
             // 30, 60, and/or 90 days before this date.
-            $table->dateTime('notification_date');
+            $table->text('who_its_through');
+            $table->dateTime('started_at');
+            $table->dateTime('ended_at');
 
-            $sdf = "This is suppose to be place for NCG to upload their contracts and receive reminders of when they're do
-            they need to be able to. ";
+            $table->text('path');
 
-            $table->integer('notification_count');
+            $table->integer('user_id')->unsigned();
 
+            $table->uuid('uuid');
             $table->integer('old_contract')->unsigned();
 
             $table->softDeletes();
@@ -49,18 +48,6 @@ class CreateDispatchTables extends Migration
             $table->timestamps(); // For when it was assigned to the user.
         });
 
-        // This table will or at least should store info relating to the
-        // media on the tickets.
-        Schema::create('dispatch_ticket_media', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('ticket_id')->unsigned()->index();
-            $table->integer('user_id')->unsigned()->index();
-            $table->uuid('uuid');
-            $table->string('type');
-            // This is the full path of any given media
-            $table->text('path');
-            $table->timestamps();
-        });
     }
 
 
