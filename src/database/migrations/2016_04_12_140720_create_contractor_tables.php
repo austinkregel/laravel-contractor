@@ -48,6 +48,13 @@ class CreateDispatchTables extends Migration
             $table->timestamps(); // For when it was assigned to the user.
         });
 
+        Schema::create('contractor_paths', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('related_model_id')->unsigned();
+            $table->integer('ticket_id')->unsigned();
+            $table->timestamps(); // For when it was assigned to the user.
+        });
+
     }
 
 
@@ -56,13 +63,7 @@ class CreateDispatchTables extends Migration
      */
     public function down()
     {
-        Schema::drop('dispatch_jurisdiction');
-        Schema::drop('dispatch_jurisdiction_user');
-        Schema::drop('dispatch_priority');
-        Schema::drop('dispatch_ticket_user');
-        Schema::drop('dispatch_tickets');
-        Schema::drop('dispatch_ticket_edits');
-        Schema::drop('dispatch_ticket_media');
-        Schema::drop('dispatch_ticket_comments');
+        Schema::drop('contractor_contracts');
+        Schema::drop('contractor_related_models');;
     }
 }

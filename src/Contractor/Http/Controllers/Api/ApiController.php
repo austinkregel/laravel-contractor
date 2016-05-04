@@ -11,7 +11,7 @@ class ApiController extends Controller
 {
     public function displayContract($uuid){
         $contract = Paths::where('uuid', $uuid)->first();
-        if (empty($contract))
+        if ((empty($contract) || (!auth()->user()->contracts->contains($contract))) && !auth()->user()->hasRole(['developer', 'saycomputer-admin', 'super-admin']))
             return response()->json(['message' => 'No contract found, please try another uuid', 'code' => 404], 404);
         return response()
             ->make(file_get_contents(storage_path($contract->path)))
@@ -39,13 +39,11 @@ class ApiController extends Controller
                     'path' => config('kregel.contractor.storage_path').$name
                 ]);
             }
-
             return response()->json([
                 'message' => 'Upload was successful',
                 'code' => 202
             ]);
         }
-
         return response()->json([
             'message' => 'No file was found',
             'code' => 422

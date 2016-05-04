@@ -5,7 +5,6 @@ namespace Kregel\Contractor\Http\Controllers;
 use Illuminate\Http\Request;
 use Kregel\Contractor\Models\Contract;
 use Kregel\Contractor\Models\Paths;
-use Kregel\Dispatch\Models\Ticket;
 use Symfony\Component\Process\Exception\InvalidArgumentException;
 
 class ContractsController extends Controller
@@ -37,6 +36,12 @@ class ContractsController extends Controller
         return view('contractor::list-all', ['contracts' => $model->contracts, 'related_model' => $model]);
     }
 
+    public function showArchived($related_model)
+    {
+        $model = $this->findRelatedModel($related_model);
+        return view('contractor::list-all', ['contracts' => $model->contracts()->onlyTrashed()->get(), 'related_model' => $model]);
+    }
+    
     public function handlePost($related_model, Request $request)
     {
         $this->validate($request, [
@@ -103,14 +108,14 @@ class ContractsController extends Controller
         return redirect(route('contractor::edit', $id));
     }
 
-    public function edit($ticket)
+    public function edit($contract)
     {
-        if (!is_numeric($ticket)) {
-            throw new InvalidArgumentException('Your ticket must be a number.');
+        if (!is_numeric($contract)) {
+            throw new InvalidArgumentException('Your contract must be a number.');
         }
-        $ticket = Contract::where('id', $ticket)->first();
+        $contract = Contract::where('id', $contract)->first();
 
-        return view('contractor::edit.contract', compact('ticket'));
+        return view('contractor::edit.contract', compact('contract'));
     }
 
     public function delete($id, Request $request)
