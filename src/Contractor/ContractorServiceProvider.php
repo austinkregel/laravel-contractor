@@ -48,6 +48,10 @@ class ContractorServiceProvider extends ServiceProvider {
 		$this->publishes([
 			__DIR__.'/../config/config.php' => config_path('kregel/contractor.php'),
 		], 'config');
+
+		$this->publishes([
+			__DIR__.'/../database/migrations/*' => database_path('migrations/'),
+		], 'migrations');
 	}
 	/**
 	 * Get the services provided by the provider.
