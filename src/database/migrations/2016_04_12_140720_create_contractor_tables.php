@@ -32,9 +32,6 @@ class CreateDispatchTables extends Migration
 
             $table->integer('user_id')->unsigned();
 
-            $table->uuid('uuid');
-            $table->integer('old_contract')->unsigned();
-
             $table->softDeletes();
             $table->timestamps();
         });
@@ -50,8 +47,10 @@ class CreateDispatchTables extends Migration
 
         Schema::create('contractor_paths', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('related_model_id')->unsigned();
-            $table->integer('ticket_id')->unsigned();
+            $table->integer('contract_id')->unsigned();
+            $table->uuid('uuid');
+            $table->text('path');
+            $table->softDeletes();
             $table->timestamps(); // For when it was assigned to the user.
         });
 
@@ -64,6 +63,7 @@ class CreateDispatchTables extends Migration
     public function down()
     {
         Schema::drop('contractor_contracts');
-        Schema::drop('contractor_related_models');;
+        Schema::drop('contractor_related_models');
+        Schema::drop('contractor_paths');
     }
 }
