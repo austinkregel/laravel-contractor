@@ -87,7 +87,7 @@ class ContractsController extends Controller
         $this->validate($request, [
             'name' => 'required'
         ]);
-        $contract = Contract::find($id);
+        $contract = Contract::withTrashed()->find($id);
         $save = false;
         $info = [];
         if ($contract !== null) {
@@ -113,8 +113,7 @@ class ContractsController extends Controller
         if (!is_numeric($contract)) {
             throw new InvalidArgumentException('Your contract must be a number.');
         }
-        $contract = Contract::where('id', $contract)->first();
-
+        $contract = Contract::withTrashed()->find($contract);
         return view('contractor::edit.contract', compact('contract'));
     }
 
@@ -122,17 +121,22 @@ class ContractsController extends Controller
     {
         $contract = Contract::find($id);
         if(empty($contract)){
+            $contract = Contract::withTrashed()->find($id);
+            if(!empty($contract))
+            {
+                return $this->restoreContract($contract, $request);
+            }
             return response()->json([
                 'message' => 'No document found',
                 'code' => 404
             ]);
         }
-        foreach($contract->paths as $path){
-//            if(file_exists(storage_path($path->path))){
-//                unlink(storage_path($path->path));
-//            }
-            $path->delete();
-        }
+//        foreach($contract->paths as $path){
+//            //if(file_exists(storage_path($path->path))){
+//            //    unlink(storage_path($path->path));
+//            //}
+//            $path->delete();
+//        }
         $contract->delete();
         if($request->ajax()) {
             return response()->json([
@@ -140,6 +144,22 @@ class ContractsController extends Controller
                 'code' => 202
             ]);
         }
-        return response(route('contractor::'));
+        return redirect(route('contractor::list', str_slug($contract->contractors->first()->name)));
+    }
+
+    public function restoreContract($contract, Request $request)
+    {
+        $contract->restore();
+//        foreach($contract->path()->withTrashed()->get() as $me){
+//            $me->restore();
+//        }
+
+        if($request->ajax()) {
+            return response()->json([
+                'message' => 'Document and paths restored!',
+                'code' => 202
+            ]);
+        }
+        return redirect(route('contractor::list', str_slug($contract->contractors->first()->name)));
     }
 }
