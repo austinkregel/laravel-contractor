@@ -15,5 +15,6 @@ Route::group(['prefix' => config('kregel.contractor.route'), 'as' => 'contractor
     Route::get('document/{id}/edit',        ['as' => 'edit', 'uses' => 'ContractsController@edit']);
     Route::put('document/{place}',          ['as' => 'put', 'uses' => 'ContractsController@handlePut']);
 
+    Route::delete('document/{id}/delete',   ['as' => 'delete', 'uses' => 'ContractsController@delete']);
 });
 
