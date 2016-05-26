@@ -65,7 +65,8 @@ class ContractsController extends Controller
                 'notification_date' => $request->input('notification_date'),
                 'started_at' => $request->input('started_at'),
                 'ended_at' => $request->input('ended_at'),
-                'contractor_id' => $model->id
+                'contractor_id' => $model->id,
+                'user_id' => auth()->user()->id
             ]);
             $path = Paths::create([
                 'contract_id' => $contract->id,
