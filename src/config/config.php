@@ -16,6 +16,24 @@ return [
         return auth()->user();
     },
     'storage_path' => 'app/contractor/',
-
-
+    'mail' => [
+        'from' => [
+            'address' => 'no-reply@somedomain.com',
+            'name' => 'Contracting system'
+        ],
+        'subject' => [
+            'new' => [
+                'user' => 'Thank you for joining!'
+            ]
+        ],
+        'template' => [
+            'new' => [
+                'contract' => 'contractor::emails.new-contract'
+            ],
+            'due' => [
+                'contract' => 'contractor::emails.due-contract'
+            ],
+        ]
+    ],
+    'middleware' => ['web']
 ];
