@@ -1,6 +1,6 @@
 <?php
 //Route::group(['prefix' => config('kregel.contractor.route'), 'as' => 'contractor::', 'middleware' => 'auth'], function () {
-Route::group(['prefix' => config('kregel.contractor.route'), 'as' => 'contractor::', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => config('kregel.contractor.route'), 'as' => 'contractor::', 'middleware' => config('kregel.contractor.middleware')], function () {
 
     /**
      * Api Routes for Dispatch.
