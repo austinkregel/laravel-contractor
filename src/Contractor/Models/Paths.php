@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kregel\FormModel\Traits\Formable;
 
-
 class Paths extends Model
 {
     use SoftDeletes, Formable;
