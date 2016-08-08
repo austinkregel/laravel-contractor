@@ -9,12 +9,11 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/support": "5.1.*|5.2.*"
+        "illuminate/support": ">=5.1"
     },
     "autoload": {
         "psr-4": {
             "Kregel\\Contractor\\": "src/Contractor/"
         }
-    },
-    "minimum-stability": "stable"
+    }
 }
