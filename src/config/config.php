@@ -15,6 +15,7 @@ return [
         // Essentially, this must return the model that has the contractable trait.
         return auth()->user();
     },
+    'user_model' => App\User::class,
     'storage_path' => 'app/contractor/',
     'mail' => [
         'from' => [
