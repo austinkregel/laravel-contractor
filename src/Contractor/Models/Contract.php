@@ -37,7 +37,7 @@ class Contract extends Model
 
     public function user()
     {
-        return $this->belongsTo(config('auth.model'));
+        return $this->belongsTo(config('kregel.contractor.user_model'));
     }
 
     public function old()
@@ -58,7 +58,6 @@ class Contract extends Model
         foreach ($this->contractors as $contractor) {
             $notify[] = $contractor->$related_key;
         }
-        dd(collect($notify)->unique(), $this->contractors);
         return collect($notify);
     }
 }
