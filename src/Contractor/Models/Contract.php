@@ -37,7 +37,7 @@ class Contract extends Model
 
     public function user()
     {
-        return $this->belongsTo(config('auth.model'));
+        return $this->belongsTo(config('kregel.contractor.user_model'));
     }
 
     public function old()

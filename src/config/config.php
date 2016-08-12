@@ -1,5 +1,6 @@
 <?php
 return [
+    'user_model' => App\User::class,
     'route' => 'contractor', //base route name for the contractor routes.
     'view-base' => 'spark::layouts.app', // Any view that you wish to extend
     /**
